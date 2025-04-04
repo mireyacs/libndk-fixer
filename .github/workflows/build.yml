@@ -1,5 +1,9 @@
 name: Build libndk_fixer
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -7,7 +11,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true
-      - name: install cmake
+      - name: Install CMake
         run: |
           sudo apt update -qq
           sudo apt install -y cmake
@@ -18,7 +22,7 @@ jobs:
           add-to-path: false
       - run: ./build.sh
         env:
-          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }} 
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
       - uses: actions/upload-artifact@v4
         with:
           name: lib
